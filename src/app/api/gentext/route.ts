@@ -13,6 +13,13 @@ export const POST = async (req: NextRequest) => {
     });
     const result = await response.json();
 
+    if(result.error) {
+      return NextResponse.json({
+        ok: false,
+        error: result.error,
+      });
+    }
+
     return NextResponse.json({
       ok: true,
       result,

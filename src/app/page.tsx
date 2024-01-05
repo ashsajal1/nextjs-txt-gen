@@ -15,12 +15,43 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
-    console.log("first")
+    setLoading(true)
+    if(error) {
+      setError('')
+    }
+    // console.log(inputs)
+    try {
+      const data = await fetch("/api/gentext", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          inputs
+        })
+      })
+
+      const response = await data.json();
+      // console.log(response)
+
+      if (!response.ok) {
+        setLoading(false)
+        setError("An Error occurred.")
+        // console.log(response.error)
+        return;
+      }
+
+      setLoading(false)
+      // console.log(response.result[0].generated_text)
+      setInputs(response.result[0].generated_text)
+    } catch (error) {
+      setError("An Error occurred.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <main className="flex flex-col items-center justify-between p-24 gap-4">
-      <Input loading={loading} handleInputChange={handleInputChange} />
+      <Input inputs={inputs} loading={loading} handleInputChange={handleInputChange} />
       <Button handleSubmit={handleSubmit} loading={loading} />
 
       {error && (
