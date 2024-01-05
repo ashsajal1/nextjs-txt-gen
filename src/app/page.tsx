@@ -2,26 +2,39 @@
 import Button from "@/components/Button";
 import Error from "@/components/Error";
 import Input from "@/components/Input";
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 export default function Home() {
   const [inputs, setInputs] = useState('');
   const [loading, setLoading] = useState(false);
+  const [hasInput, setHasInput] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if(hasInput) {
+      handleSubmit()
+      setHasInput(false)
+    }
+  }, [inputs])
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputs(e.target.value)
     // console.log(e.target.value)
   };
 
+  const handleSample = () => {
+    setHasInput(true)
+    setInputs("Science is all about")
+  }
+
   const handleSubmit = async () => {
 
     if (!inputs) {
-      setError("The input filed cannot be empty");
+      setError("The input field cannot be empty");
       return
     }
     setLoading(true)
-    if(error) {
+    if (error) {
       setError('')
     }
     // console.log(inputs)
@@ -39,7 +52,7 @@ export default function Home() {
 
       if (!response.ok) {
         setLoading(false)
-        setError("An Error occurred.")
+        setError("An error occurred.")
         // console.log(response.error)
         return;
       }
@@ -48,7 +61,7 @@ export default function Home() {
       // console.log(response.result[0].generated_text)
       setInputs(response.result[0].generated_text)
     } catch (error) {
-      setError("An Error occurred.")
+      setError("An error occurred.")
     } finally {
       setLoading(false)
     }
@@ -58,7 +71,7 @@ export default function Home() {
     <main className="flex flex-col items-center justify-between p-6 gap-4">
       <Input inputs={inputs} loading={loading} handleInputChange={handleInputChange} />
       <Button handleSubmit={handleSubmit} loading={loading} />
-
+      <button disabled={loading} onClick={handleSample} className="p-2 rounded border border-violet-600 w-full text-violet-600 hover:text-violet-800 hover:border-violet-800">See example</button>
       {error && (
         <Error error={error} />
       )}
