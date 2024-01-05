@@ -55,7 +55,7 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col items-center justify-between p-24 gap-4">
+    <main className="flex flex-col items-center justify-between p-6 gap-4">
       <Input inputs={inputs} loading={loading} handleInputChange={handleInputChange} />
       <Button handleSubmit={handleSubmit} loading={loading} />
 
