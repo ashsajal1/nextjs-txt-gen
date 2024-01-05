@@ -11,7 +11,7 @@ export default function Home() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if(hasInput) {
+    if (hasInput) {
       handleSubmit()
       setHasInput(false)
     }
@@ -70,8 +70,12 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between p-6 gap-4">
       <Input inputs={inputs} loading={loading} handleInputChange={handleInputChange} />
-      <Button handleSubmit={handleSubmit} loading={loading} />
-      <button disabled={loading} onClick={handleSample} className="p-2 rounded border border-violet-600 w-full text-violet-600 hover:text-violet-800 hover:border-violet-800">See example</button>
+
+      <div className="flex flex-col md:flex-row w-full gap-2">
+        <Button handleSubmit={handleSubmit} loading={loading} />
+        <button disabled={loading} onClick={handleSample} className="p-2 rounded border border-violet-600 w-full text-violet-600 hover:text-violet-800 hover:border-violet-800">See example</button>
+      </div>
+
       {error && (
         <Error error={error} />
       )}
