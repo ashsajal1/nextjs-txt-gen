@@ -15,6 +15,11 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
+
+    if (!inputs) {
+      setError("The input filed cannot be empty");
+      return
+    }
     setLoading(true)
     if(error) {
       setError('')
